@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres_order:
+    image: postgres:15
+    container_name: bd_order
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: DB_ORDER
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata_order:/var/lib/postgresql/data
+
+  postgres_payment:
+    image: postgres:15
+    container_name: bd_payment
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: DB_PAYMENT
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata_payment:/var/lib/postgresql/data
+
+  postgres_service:
+    image: postgres:15
+    container_name: bd_service
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: DB_SERVICE
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pgdata_service:/var/lib/postgresql/data
+
+
+volumes:
+  pgdata_order:
+  pgdata_payment:
+  pgdata_service:
