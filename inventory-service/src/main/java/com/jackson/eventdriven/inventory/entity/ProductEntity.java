@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 
@@ -17,18 +18,17 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductEntity {
+public class ProductEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Nome do produto é obrigatório")
     private String name;
 
-    @NotNull(message = "Quantidade é obrigatório")
     private int amount;
 
-    @NotNull(message = "Valor do produto é obrigatório")
     private double price;
 }
