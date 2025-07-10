@@ -18,5 +18,4 @@ public class ProductResponseDTO {
     private Integer amount;
     private Double price;
 
-    // Pode adicionar outros campos se quiser, tipo data de criação, status etc
 }
