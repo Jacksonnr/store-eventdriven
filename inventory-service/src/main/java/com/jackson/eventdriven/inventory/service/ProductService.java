@@ -1,12 +1,14 @@
 package com.jackson.eventdriven.inventory.service;
 
 
+import com.jackson.eventdriven.inventory.dto.ProductMapper;
 import com.jackson.eventdriven.inventory.dto.ProductResponseDTO;
-import com.jackson.eventdriven.inventory.entity.ProductEntity;
 import com.jackson.eventdriven.inventory.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,15 +21,15 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> listAll() {
-        List<ProductEntity> products = productRepository.findAll();
-
-        return products.stream()
-                .map(product -> new ProductResponseDTO(
-                        product.getId(),
-                        product.getName(),
-                        product.getAmount(),
-                        product.getPrice()
-                ))
+        return productRepository.findAll()
+                .stream()
+                .map(ProductMapper :: toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public ProductResponseDTO listById(UUID id){
+        return productRepository.findById(id)
+                .map(ProductMapper :: toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com o id informado"));
     }
 }
