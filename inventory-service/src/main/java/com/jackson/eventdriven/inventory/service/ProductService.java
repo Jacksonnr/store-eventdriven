@@ -2,7 +2,9 @@ package com.jackson.eventdriven.inventory.service;
 
 
 import com.jackson.eventdriven.inventory.dto.ProductMapper;
+import com.jackson.eventdriven.inventory.dto.ProductRequestDTO;
 import com.jackson.eventdriven.inventory.dto.ProductResponseDTO;
+import com.jackson.eventdriven.inventory.entity.ProductEntity;
 import com.jackson.eventdriven.inventory.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,12 @@ public class ProductService {
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    public ProductResponseDTO createProduct (ProductRequestDTO productRequestDTO) {
+        ProductEntity product = ProductMapper.toEntity(productRequestDTO);
+        ProductEntity saved = productRepository.save(product);
+        return ProductMapper.toDTO(saved);
     }
 
     public List<ProductResponseDTO> listAll() {
