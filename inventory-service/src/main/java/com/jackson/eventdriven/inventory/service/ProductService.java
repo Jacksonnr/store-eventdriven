@@ -57,4 +57,11 @@ public class ProductService {
 
         return ProductMapper.toDTO(productExisting);
     }
+
+    public void deleteProduct (UUID id){
+        ProductEntity product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
+
+        productRepository.delete(product);
+    }
 }
