@@ -1,97 +1,104 @@
-# 🛒 Inventory Service - Event-Driven Store
 
-Microsserviço responsável pela gestão de produtos e controle de estoque, desenvolvido como parte de um sistema orientado a eventos para uma aplicação de e-commerce.
+# 🧩 Event-Driven Store - Monorepo de Microsserviços
+
+Repositório monolítico contendo os três microsserviços principais de uma aplicação e-commerce baseada em arquitetura orientada a eventos.
 
 ---
 
-## 📦 Tecnologias Utilizadas
+## 📌 Microsserviços
 
-- Java 17
-- Spring Boot 3
-- Spring Web
-- Spring Data JPA
+- **🛒 inventory-service**: gerenciamento de produtos e controle de estoque  
+- **📦 order-service** *(em desenvolvimento)*: processamento de pedidos e status  
+- **💳 payment-service** *(em desenvolvimento)*: gestão de pagamentos e confirmação de transações  
+
+Cada serviço é isolado, com seu próprio banco de dados e comunicação futura via mensageria (Kafka ou RabbitMQ).
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+- Java 17 + Spring Boot 3
+- Spring Web / Spring Data JPA
 - PostgreSQL
 - Docker / Docker Compose
 - Lombok
 - Bean Validation (Jakarta)
-- Event-driven architecture *(em breve com Kafka ou RabbitMQ)*
-
----
-
-## 🚀 Funcionalidades
-
-- ✅ Cadastro de produtos
-- ✅ Consulta de produtos por ID ou listagem
-- ✅ Atualização e exclusão de produtos
-- ✅ Validações de integridade dos dados
-- 🔄 Comunicação futura via mensageria com outros microsserviços
+- Arquitetura orientada a eventos event-driven *(em breve)*
+- Testes com JUnit + Mockito *(em breve)*
+- Kafka ou RabbitMQ *(em breve)*
 
 ---
 
 ## 🧱 Arquitetura
 
-Este serviço faz parte de um ecossistema baseado em microsserviços. Cada serviço possui seu próprio banco de dados e comunica-se por meio de eventos (mensageria). A arquitetura segue os princípios de:
-
-- Separação por camadas (`controller`, `service`, `repository`, `dto`, `exception`)
-- Princípios SOLID
-- Clean Code
+- Separação por camadas: `controller`, `service`, `repository`, `dto`, `exception`, `entity`
+- Princípios **SOLID** e **Clean Code**
+- Cada microsserviço é independente e desacoplado
+- Comunicação assíncrona baseada em eventos
 
 ---
 
-## ⚙️ Configuração
+## 🚀 Funcionalidades (por serviço)
 
-### Variáveis de ambiente (application.properties)
+### ✅ inventory-service
+- Cadastro, listagem, atualização e exclusão de produtos
+- Validações de integridade (ex: proibição de preço/quantidade <= 0)
+- Persistência com PostgreSQL
+- REST API funcional
 
-```properties
-spring.application.name=inventory-service
-server.port=8080
+### 🔄 order-service *(próximo)*
+- Registro de pedidos com status
+- Comunicação via eventos com inventário e pagamento
 
-spring.datasource.url=jdbc:postgresql://localhost:5434/DB_SERVICE
-spring.datasource.username=admin
-spring.datasource.password=admin
+### 💸 payment-service *(próximo)*
+- Simulação de pagamentos e notificações
+- Comunicação via eventos com pedidos
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+---
+
+## 🐳 Como rodar o projeto
+
+```bash
+docker-compose up -d
 ```
 
-## 🐳 Subindo com Docker Compose
+Verifique se as portas usadas por cada serviço estão livres.  
+O serviço `inventory-service` roda em: [http://localhost:8080](http://localhost:8080)
 
-docker-compose up -d
+---
 
-Certifique-se de que a porta 5434 do banco de dados esteja livre.
+## 📁 Estrutura do Monorepo
 
-Exemplo de requisição:
-json
-
-POST /products
-{
-  "name": "Monitor Gamer",
-  "price": 1499.99,
-  "amount": 20
-}
-
-
-📁 Estrutura de Pastas
-inventory-service/
+```
+store-eventdriven/
 │
-├── controller/
-├── dto/
-├── entity/
-├── exception/
-├── repository/
-├── service/
-└── InventoryServiceApplication.java
+├── inventory-service/
+│   ├── controller/
+│   ├── dto/
+│   ├── entity/
+│   ├── exception/
+│   ├── repository/
+│   ├── service/
+│   └── InventoryServiceApplication.java
+│
+├── order-service/         # (em breve)
+├── payment-service/       # (em breve)
+└── docker-compose.yml
+```
 
+---
 
-📌 Próximos passos
- Integração com Kafka/RabbitMQ
+## 📌 Próximos passos
 
- Testes unitários com JUnit e Mockito
+- [ ] Implementação de Kafka/RabbitMQ
+- [ ] Integração entre microsserviços
+- [ ] Testes unitários com JUnit/Mockito
+- [ ] Auditoria de eventos e logs estruturados
+- [ ] Segurança com autenticação JWT
 
- Integração com microsserviço de pedidos
+---
 
- Validações assíncronas e auditoria de eventos
+## 👨‍💻 Autor
 
-👨‍💻 Autor
-Jackson Reis
-GitHub - @Jacksonnr
+**Jackson Reis**  
+GitHub: [@Jacksonnr](https://github.com/Jacksonnr)
